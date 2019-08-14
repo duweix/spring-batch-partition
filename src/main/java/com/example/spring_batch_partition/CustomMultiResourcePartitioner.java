@@ -18,13 +18,15 @@ public class CustomMultiResourcePartitioner implements Partitioner {
 
     @Override
     public Map<String, ExecutionContext> partition(int gridSize) {
-        Map<String, ExecutionContext> map = new HashMap<>();
+        Map<String, ExecutionContext> map = new HashMap<>(gridSize);
         int i = 0, k = 1;
         for (Resource resource : resources) {
             ExecutionContext context = new ExecutionContext();
-            context.putString(keyName)
+            context.putString("fileName", resource.getFilename());
+            context.putString("opFileName", "output" + k++ + ".xml");
+            map.put("PARTITION_KEY" + i++, context);
         }
-        return null;
+        return map;
     }
 
 }
